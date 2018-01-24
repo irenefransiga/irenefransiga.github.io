@@ -57,78 +57,74 @@ Background.prototype.draw = function () {
 Background.prototype.update = function () {
 };
 
-function MushroomDude(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 189, 230, 5, 0.10, 14, true, 1);
-    //spriteSheet, frameWidth, frameHeight, sheetWidth,frameDuration, frames, loop, scale
-    this.x = 0;
-    this.y = 0;
-    this.speed = 100;
-    this.game = game;
-    this.ctx = game.ctx;
-}
+// function MushroomDude(game, spritesheet) {
+//     this.animation = new Animation(spritesheet, 189, 230, 5, 0.10, 14, true, 1);
+//     //spriteSheet, frameWidth, frameHeight, sheetWidth,frameDuration, frames, loop, scale
+//     this.x = 0;
+//     this.y = 0;
+//     this.speed = 100;
+//     this.game = game;
+//     this.ctx = game.ctx;
+// }
 
-MushroomDude.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
-}
+// MushroomDude.prototype.draw = function () {
+//     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+// }
 
-MushroomDude.prototype.update = function () {
-    if (this.animation.elapsedTime < this.animation.totalTime * 8 / 14)
-        this.x += this.game.clockTick * this.speed;
-    if (this.x > 800) this.x = -230;
-}
-
-
+// MushroomDude.prototype.update = function () {
+//     if (this.animation.elapsedTime < this.animation.totalTime * 8 / 14)
+//         this.x += this.game.clockTick * this.speed;
+//     if (this.x > 800) this.x = -230;
+// }
+/****************************************************************************** */
+/****************************************************************************** */
 // inheritance 
-function Cheetah(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 72, 100, 10, 0.15, 10, true, 1);
+function PandaMove(game, spritesheet) {
+    this.animation = new Animation(spritesheet, 51, 43, 3, 0.15, 3, true, 1);
     //spriteSheet, frameWidth, frameHeight, sheetWidth,frameDuration, frames, loop, scale
-    this.speed = 200;
+    this.speed = 100;
     this.ctx = game.ctx;
-    Entity.call(this, game, 0, 250);
+    Entity.call(this, game, 0, 425);
 }
 
-Cheetah.prototype = new Entity();
-Cheetah.prototype.constructor = Cheetah;
+PandaMove.prototype = new Entity();
+PandaMove.prototype.constructor = PandaMove;
 
-Cheetah.prototype.update = function () {
+PandaMove.prototype.update = function () {
     this.x += this.game.clockTick * this.speed;
     if (this.x > 800) this.x = -230;
     Entity.prototype.update.call(this);
 }
 
-Cheetah.prototype.draw = function () {
+PandaMove.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
 }
-
+/****************************************************************************** */
+/****************************************************************************** */
 // inheritance 
-function Guy(game, spritesheet) {
-    this.animation = new Animation(spritesheet, 154, 215, 4, 0.15, 8, true, 0.5);
+function PandaSleep(game, spritesheet) {
+    this.animation = new Animation(spritesheet, 68.4, 50, 12, 0.15, 12, true, 1);
     this.speed = 100;
     this.ctx = game.ctx;
-    Entity.call(this, game, 0, 450);
+    Entity.call(this, game, 350, 350);
 }
 
-Guy.prototype = new Entity();
-Guy.prototype.constructor = Guy;
+PandaSleep.prototype = new Entity();
+PandaSleep.prototype.constructor = PandaSleep;
 
-Guy.prototype.update = function () {
-    this.x += this.game.clockTick * this.speed;
-    if (this.x > 800) this.x = -230;
-    Entity.prototype.update.call(this);
-}
 
-Guy.prototype.draw = function () {
+PandaSleep.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
     Entity.prototype.draw.call(this);
 }
 
 
-AM.queueDownload("./img/RobotUnicorn.png");
-AM.queueDownload("./img/guy.jpg");
-AM.queueDownload("./img/mushroomdude.png");
-AM.queueDownload("./img/sonic.png");
-AM.queueDownload("./img/background.jpg");
+//AM.queueDownload("./img/RobotUnicorn.png");
+AM.queueDownload("./img/panda_sleep.png");
+//AM.queueDownload("./img/mushroomdude.png");
+AM.queueDownload("./img/panda_move.png");
+AM.queueDownload("./img/maplestory_bg.png");
 
 AM.downloadAll(function () {
     var canvas = document.getElementById("gameWorld");
@@ -138,10 +134,11 @@ AM.downloadAll(function () {
     gameEngine.init(ctx);
     gameEngine.start();
 
-    gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/background.jpg")));
-    gameEngine.addEntity(new MushroomDude(gameEngine, AM.getAsset("./img/mushroomdude.png")));
-    gameEngine.addEntity(new Cheetah(gameEngine, AM.getAsset("./img/sonic.png")));
-    gameEngine.addEntity(new Guy(gameEngine, AM.getAsset("./img/guy.jpg")));
+    
+    gameEngine.addEntity(new Background(gameEngine, AM.getAsset("./img/maplestory_bg.png")));
+    gameEngine.addEntity(new PandaMove(gameEngine, AM.getAsset("./img/panda_move.png")));
+    //gameEngine.addEntity(new MushroomDude(gameEngine, AM.getAsset("./img/mushroomdude.png")));
+    gameEngine.addEntity(new PandaSleep(gameEngine, AM.getAsset("./img/panda_sleep.png")));
 
     console.log("All Done!");
 });
