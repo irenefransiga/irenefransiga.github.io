@@ -147,7 +147,6 @@ PandaSleep.prototype = new Entity();
 PandaSleep.prototype.constructor = PandaSleep;
 
 PandaSleep.prototype.update = function () {
-    console.log("update");
     if (this.game.space){
         this.jumping = true;
         console.log("JUMP = TRUE");
