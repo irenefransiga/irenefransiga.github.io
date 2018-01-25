@@ -136,12 +136,34 @@ function PandaSleep(game, spritesheet) {
     this.animation = new Animation(spritesheet, 68.4, 50, 12, 0.15, 12, true, 1);
     this.speed = 100;
     this.ctx = game.ctx;
+    this.jump = false;
     Entity.call(this, game, 350, 350);
 }
 
 PandaSleep.prototype = new Entity();
 PandaSleep.prototype.constructor = PandaSleep;
 
+PandaSleep.prototype.update = function () {
+    if (this.game.space) this.jumping = true;
+    if (this.jumping) {
+        console.log("JUMP");
+        if (this.jumpAnimation.isDone()) {
+            this.jumpAnimation.elapsedTime = 0;
+            this.jumping = false;
+        }
+        var jumpDistance = (this.jumpAnimation.elapsedTime / this.jumpAnimation.totalTime) * 1.12;
+        var totalHeight = 100;
+
+        if (jumpDistance > 0.5)
+            jumpDistance = 1 - jumpDistance;
+
+        //var height = jumpDistance * 2 * totalHeight;
+        var height = totalHeight*(-4 * (jumpDistance * jumpDistance - jumpDistance));
+        this.y = this.ground - height;
+        //console.log("Y axis" + this.y);
+    }
+    Entity.prototype.update.call(this);
+}
 
 PandaSleep.prototype.draw = function () {
     this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
