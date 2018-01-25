@@ -99,7 +99,7 @@ PandaMove.prototype.update = function () {
 
 PandaMove.prototype.draw = function () {
     if(this.jumping){
-        this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y - 34);
+        this.jumpAnimation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y - 34);
     } else {
         this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
     }
@@ -134,9 +134,12 @@ Dragon.prototype.draw = function () {
 // inheritance 
 function PandaSleep(game, spritesheet) {
     this.animation = new Animation(spritesheet, 68.4, 50, 12, 0.15, 12, true, 1);
+    this.jumpAnimation = new Animation(spritesheet, 68.4, 50, 12, 0.15, 12, true, 1);
     this.speed = 100;
     this.ctx = game.ctx;
-    this.jump = false;
+    this.jumping = false;
+    this.radius = 100;
+    this.ground = 350;
     Entity.call(this, game, 350, 350);
 }
 
@@ -144,7 +147,11 @@ PandaSleep.prototype = new Entity();
 PandaSleep.prototype.constructor = PandaSleep;
 
 PandaSleep.prototype.update = function () {
-    if (this.game.space) this.jumping = true;
+    console.log("update");
+    if (this.game.space){
+        this.jumping = true;
+        console.log("JUMP = TRUE");
+    }
     if (this.jumping) {
         console.log("JUMP");
         if (this.jumpAnimation.isDone()) {
@@ -166,7 +173,11 @@ PandaSleep.prototype.update = function () {
 }
 
 PandaSleep.prototype.draw = function () {
-    this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+    if(this.jumping){
+        this.jumpAnimation.drawFrame(this.game.clockTick, ctx, this.x + 17, this.y - 34);
+    } else {
+        this.animation.drawFrame(this.game.clockTick, this.ctx, this.x, this.y);
+    }
     Entity.prototype.draw.call(this);
 }
 /****************************************************************************** */
